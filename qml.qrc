@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>AnimationView.qml</file>
+        <file>Button.qml</file>
+        <file>AnimationList.qml</file>
+        <file>SettingPanel.qml</file>
+        <file>AnimationSettingsButton.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>ActionBar.qml</file>
+        <file>ActionBarButton.qml</file>
+        <file>ConnectionView.qml</file>
+    </qresource>
+</RCC>
