@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 												 "Cannot create ConnectionState in QML");
 
 	QQmlApplicationEngine engine;
-	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+	engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
 
 	if (engine.rootObjects().isEmpty()) {
 		return -1;
