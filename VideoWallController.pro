@@ -1,4 +1,4 @@
-QT += quick
+QT += quick websockets
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -15,7 +15,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     animation.cpp \
-    videowallcontroller.cpp
+    videowallcontroller.cpp \
+    animationmodel.cpp \
+    websocket.cpp
 
 RESOURCES += qml.qrc \
     statics.qrc
@@ -37,4 +39,6 @@ DISTFILES += \
 HEADERS += \
     animation.h \
     videowallcontroller.h \
-    enums.h
+    enums.h \
+    animationmodel.h \
+    websocket.h

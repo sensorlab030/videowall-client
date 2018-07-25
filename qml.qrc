@@ -9,6 +9,8 @@
         <file>qtquickcontrols2.conf</file>
         <file>ActionBar.qml</file>
         <file>ActionBarButton.qml</file>
-        <file>ConnectionView.qml</file>
+        <file>ConnectingView.qml</file>
+        <file>DisconnectedView.qml</file>
+        <file>PulseLoader.qml</file>
     </qresource>
 </RCC>

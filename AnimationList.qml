@@ -3,7 +3,7 @@ import QtQuick.Controls.Material 2.1
 
 Item {
 	id: listView
-	anchors.fill:parent
+	anchors.fill: parent
 
 	signal listCancelled
 
@@ -18,25 +18,6 @@ Item {
 
 	}
 
-	ListModel {
-		id: tempModel
-		ListElement {
-			aid: 1
-			name: "Black"
-			description: "No display"
-		}
-		ListElement {
-			aid: 2
-			name: "Window video stream"
-			description: "Video stream of the Plompetorengracht in Utrecht"
-		}
-		ListElement {
-			aid: 3
-			name: "Chicago video stream"
-			description: "Video stream from the Chicago office"
-		}
-	}
-
 	ListView {
 		anchors.top: actionBar.bottom
 		anchors.horizontalCenter: parent.horizontalCenter
@@ -44,7 +25,7 @@ Item {
 		height: parent.height - actionBar.height
 		spacing: gridSize
 
-		model: tempModel
+		model: animationModel
 		delegate: animationDelegate
 
 		add: Transition {
@@ -59,7 +40,7 @@ Item {
 			id: animationCard
 			width: parent.width
 			height: gridSize * 6
-			color: aid === 2 ? Material.accent : 'white'
+			color: active ? Material.accent : 'white'
 
 			Column {
 				width: parent.width - gridSize * 2
@@ -80,7 +61,12 @@ Item {
 
 			MouseArea {
 				anchors.fill: parent
+				onClicked: {
+					controller.setActiveAnimation(id);
+				}
 			}
+
+			//onActiveChanged: console.log("ACTIVE CHANGED")
 
 		}
 

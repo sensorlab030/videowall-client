@@ -4,7 +4,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQml.StateMachine 1.0 as DSM
 import nl.sensorlab.videowall 1.0
-//import foo 1.0
 
 Window {
 	id: main
@@ -25,19 +24,16 @@ Window {
 	// Current active view
 	property int activeViewId: -1
 
-	VideoWallController {
-		id: controller
-
-		onConnectionStateChanged: {
-			console.log("CHANGE!", connectionState);
-
-			if (connectionState === ConnectionState.DISCONNECTED) {
-				console.log("DISCONNECTED");
-			}
-
-		}
-
-	}
+//	SET THROUGH C++ BACKEND
+//	VideoWallController {
+//		id: controller
+////		onConnectionStateChanged: {
+//////			console.log("CHANGE!", connectionState);
+//////			if (connectionState === ConnectionState.DISCONNECTED) {
+//////				console.log("DISCONNECTED");
+//////			}
+////		}
+//	}
 
 	AnimationView {
 		id: animationView
@@ -51,10 +47,22 @@ Window {
 		visible: (activeViewId === this.viewId)
 	}
 
+	DisconnectedView {
+		id: disconnectedView
+		readonly property int viewId: 3
+		visible: (activeViewId === this.viewId)
+	}
+
+	ConnectingView {
+		id: connectingView
+		readonly property int viewId: 4
+		visible: (activeViewId === this.viewId)
+	}
+
 	// Handle application view state
 	DSM.StateMachine {
 		id: applicationState
-		initialState: animationState
+		initialState: disconnectedState
 		running: true
 
 		DSM.State {
@@ -84,8 +92,41 @@ Window {
 			}
 		}
 
+		DSM.State {
+			id: disconnectedState
+
+			DSM.SignalTransition {
+				targetState: connectingState
+				signal: controller.onConnectionStateChanged
+				guard: (controller.connectionState === ConnectionState.CONNECTING)
+			}
+
+			onEntered: {
+				activeViewId = disconnectedView.viewId
+			}
+
+		}
+
+		DSM.State {
+			id: connectingState
+
+			DSM.SignalTransition {
+				targetState: listState
+				signal: controller.onConnectionStateChanged
+				guard: (controller.connectionState === ConnectionState.CONNECTED)
+			}
+
+			DSM.SignalTransition {
+				targetState: disconnectedState
+				signal: controller.onConnectionStateChanged
+				guard: (controller.connectionState === ConnectionState.DISCONNECTED)
+			}
+
+			onEntered: {
+				activeViewId = connectingView.viewId
+			}
+		}
+
 	}
-
-
 
 }
