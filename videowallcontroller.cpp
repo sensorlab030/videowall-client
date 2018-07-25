@@ -7,25 +7,16 @@
 
 VideoWallController::VideoWallController(QObject *parent) : QObject(parent) {
 
+	// Setup animation model
+	_animationModel = new AnimationModel(this);
+
 	// Setup socket
 	_socket = new WebSocket(this);
 	connect(_socket, SIGNAL(connectionStateChanged(ConnectionState::Enum)), this, SIGNAL(connectionStateChanged(ConnectionState::Enum)));
 	connect(_socket, SIGNAL(errorString(QString)), this, SIGNAL(socketError(QString)));
-
-	// Setup animation model
-	_animationModel = new AnimationModel(this);
-	for (int i = 0; i < 40; i++) {
-		Animation* animation = new Animation(
-					i,
-					QString("ANIMATION %1").arg(QString::number(i)),
-					"DESCRIPTION", this);
-
-		connect(this, SIGNAL(activeAnimationIdChanged(int)), animation, SLOT(handleActiveAnimationIdChange(int)));
-		_animationModel->addAnimation(animation);
-	}
+	connect(_socket, SIGNAL(animationsChanged(QList<Animation*>)), _animationModel, SLOT(setAnimations(QList<Animation*>)));
 
 	_activeAnimation = 0;
-
 
 }
 

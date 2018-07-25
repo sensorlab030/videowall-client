@@ -1,6 +1,7 @@
 #include "websocket.h"
 
 #include <QDebug>
+#include "animation.h"
 
 WebSocket::WebSocket(QObject *parent) : QObject(parent) {
 
@@ -52,7 +53,96 @@ void WebSocket::onStateChanged(QAbstractSocket::SocketState state) {
 }
 
 void WebSocket::onMessage(const QString& message) {
-	qDebug() << message;
+
+	try {
+
+		// Parse message to root object
+		QJsonDocument msgJson = QJsonDocument::fromJson(message.toUtf8());
+		if (msgJson.isNull() || msgJson.isEmpty() || !msgJson.isObject()) {
+			throw new QString("Invalid JSON message object");
+		}
+		QJsonObject root = msgJson.object();
+
+		// Read message type
+		QJsonValue msgTypeValue = root.value("msg");
+		if (!msgTypeValue.isString()) {
+			throw new QString("Invalid 'msg' property");
+		}
+		QString msgType = msgTypeValue.toString().toLower();
+
+		// Fetch data object
+		QJsonValue dataValue = root.value("data");
+		if (!dataValue.isObject() && !dataValue.isNull()) {
+			throw new QString("Invalid 'data' property");
+		}
+		QJsonObject data = dataValue.toObject();
+
+		// Channel message to correct method
+		if (msgType == "config") {
+			hanleWallConfigMsg(data);
+		} else {
+			throw new QString("Unknown message type");
+		}
+
+	} catch (const QString& error) {
+		qDebug() << "Disregarding invalid message:" << error;
+	}
+
+}
+
+void WebSocket::hanleWallConfigMsg(const QJsonObject& data) {
+
+	try {
+
+		// @TODO Wall properties
+
+
+		// Animations
+		QJsonValue animationListValue = data.value("animations");
+		if (!animationListValue.isArray()) {
+			throw new QString("Invalid 'animations' property");
+		}
+		QJsonArray animationList = animationListValue.toArray();
+
+		QList<Animation*> animationResultList;
+		QJsonArray::iterator animationIt;
+		for (animationIt = animationList.begin(); animationIt != animationList.end(); animationIt++) {
+
+			// Fetch object
+			QJsonValue animationValue = *animationIt;
+			if (!animationValue.isObject()) {
+				throw new QString("Invalid animation object");
+			}
+			QJsonObject animation = animationValue.toObject();
+
+			// Fetch properties
+			QJsonValue idValue = animation.value("id");
+			if (!idValue.isDouble()) {
+				throw new QString("Invalid animation 'id' property");
+			}
+			int id = (int) idValue.toDouble();
+
+			QJsonValue nameValue = animation.value("name");
+			if (!nameValue.isString()) {
+				throw new QString("Invalid animation 'name' property");
+			}
+			QString name = nameValue.toString();
+
+			QJsonValue descriptionValue = animation.value("description");
+			if (!descriptionValue.isString()) {
+				throw new QString("Invalid animation 'description' property");
+			}
+			QString description = descriptionValue.toString();
+
+			animationResultList.append(new Animation(id, name, description));
+		}
+
+		emit animationsChanged(animationResultList);
+
+	} catch (const QString& error) {
+		qDebug() << "Disregarding invalid wall config message:" << error;
+	}
+
 }
 
 QString WebSocket::errorString() const {

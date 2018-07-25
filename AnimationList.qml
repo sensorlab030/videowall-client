@@ -28,9 +28,6 @@ Item {
 		model: animationModel
 		delegate: animationDelegate
 
-		add: Transition {
-			NumberAnimation { properties: "x,y"; from: 100; duration: 1000 }
-		}
 	}
 
 	Component {

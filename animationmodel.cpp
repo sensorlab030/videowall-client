@@ -20,6 +20,13 @@ void AnimationModel::addAnimation(Animation* animation) {
 	endInsertRows();
 }
 
+void AnimationModel::setAnimations(const QList<Animation*> &animations) {
+	clear();
+	foreach (Animation* animation, animations) {
+		addAnimation(animation);
+	}
+}
+
 QHash<int, QByteArray> AnimationModel::roleNames() const {
 	QHash<int, QByteArray> roles;
 	roles[IdRole] = "id";

@@ -3,7 +3,15 @@
 
 #include <QObject>
 #include <QWebSocket>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QList>
+
 #include "enums.h"
+
+class Animation;
 
 class WebSocket : public QObject {
 	Q_OBJECT
@@ -16,6 +24,7 @@ public:
 
 signals:
 	void connectionStateChanged(ConnectionState::Enum state);
+	void animationsChanged(const QList<Animation*> &animations);
 	void errorString(const QString& errorString);
 
 public slots:
@@ -28,6 +37,8 @@ private slots:
 	void onMessage(const QString& message);
 
 private:
+	void hanleWallConfigMsg(const QJsonObject& data);
+
 	QWebSocket*				_socket;
 	ConnectionState::Enum	_connectionState;
 	QString					_errorString;
