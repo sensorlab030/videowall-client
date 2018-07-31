@@ -113,10 +113,6 @@ Window {
 
 	}
 
-	onClosing: {
-		controller.closeSocket();
-	}
-
 	Component.onCompleted: {
 		applicationState.start();
 	}

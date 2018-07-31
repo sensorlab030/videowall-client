@@ -5,14 +5,22 @@ Item {
 	id: listView
 	anchors.fill: parent
 
+	signal settingsClicked
+
 	// Top menu
 	ActionBar {
 		id: actionBar
 		z: 10;
 
+		text: "Animations"
+
 		// Button 1
 		//button1IconSource: "static/icons/baseline-arrow_back.svg"
 		//onButton1Clicked: listView.listCancelled()
+
+		// Button 2
+		button2IconSource: "static/icons/baseline-settings.svg"
+		onButton2Clicked: listView.settingsClicked();
 
 	}
 
@@ -65,6 +73,10 @@ Item {
 
 		}
 
+	}
+
+	onSettingsClicked: {
+		console.log("SETTINGS CLICKED");
 	}
 
 }

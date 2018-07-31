@@ -10,8 +10,9 @@ Item {
 	property int margin: gridSize
 	property int barHeight: gridSize * 6
 
-	property string button1IconSource
-	property string button2IconSource
+	property alias text:text.text
+	property alias button1IconSource:button1.iconSource
+	property alias button2IconSource:button2.iconSource
 
 	signal button1Clicked
 	signal button2Clicked
@@ -35,10 +36,16 @@ Item {
 		ActionBarButton {
 			id: button1
 			size: parent.buttonSize
-			iconSource: button1IconSource
 			anchors.left: parent.left
 			anchors.leftMargin: parent.buttonMargin
 			onClicked: actionBar.button1Clicked()
+		}
+
+		Text {
+			id: text
+			anchors.centerIn: parent
+			color: 'white'
+			font.pixelSize: fontSizeNormal
 		}
 
 		// Button 2
