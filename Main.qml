@@ -123,13 +123,13 @@ Window {
 			id: connectingState
 
 			DSM.SignalTransition {
-				targetState: listState
+				targetState: connectedState
 				signal: controller.onConnectionStateChanged
 				guard: (controller.connectionState === ConnectionState.CONNECTED)
 			}
 
 			DSM.SignalTransition {
-				targetState: connectedState
+				targetState: disconnectedState
 				signal: controller.onConnectionStateChanged
 				guard: (controller.connectionState === ConnectionState.DISCONNECTED)
 			}
