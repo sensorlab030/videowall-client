@@ -30,6 +30,7 @@ signals:
 
 public slots:
 	void openSocket();
+	void closeSocket();
 	void setActiveAnimation(int animationId);
 
 private:

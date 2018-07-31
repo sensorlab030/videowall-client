@@ -6,7 +6,7 @@ Item {
 
 	Column {
 		anchors.centerIn: parent
-		spacing: gridSize * 2
+		spacing: gridSize * 3
 
 		PulseLoader {
 			anchors.horizontalCenter: parent.horizontalCenter
@@ -17,7 +17,7 @@ Item {
 
 		Text {
 			anchors.horizontalCenter: parent.horizontalCenter
-			font.pixelSize: fontSizeNormal
+			font.pixelSize: fontSizeSmall
 			color: 'white'
 			text: "Connecting"
 		}

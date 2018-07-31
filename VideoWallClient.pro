@@ -41,4 +41,5 @@ HEADERS += \
     videowallcontroller.h \
     enums.h \
     animationmodel.h \
-    websocket.h
+    websocket.h \
+    socketpropertynames.h

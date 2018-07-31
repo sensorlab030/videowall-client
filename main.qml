@@ -16,24 +16,12 @@ Window {
 
 	// Constants
 	readonly property int gridSize: 12
-
 	readonly property int fontSizeNormal: 24
 	readonly property int fontSizeBig:  32
 	readonly property int fontSizeSmall: 16
 
 	// Current active view
 	property int activeViewId: -1
-
-//	SET THROUGH C++ BACKEND
-//	VideoWallController {
-//		id: controller
-////		onConnectionStateChanged: {
-//////			console.log("CHANGE!", connectionState);
-//////			if (connectionState === ConnectionState.DISCONNECTED) {
-//////				console.log("DISCONNECTED");
-//////			}
-////		}
-//	}
 
 	AnimationView {
 		id: animationView
@@ -63,28 +51,21 @@ Window {
 	DSM.StateMachine {
 		id: applicationState
 		initialState: disconnectedState
-		running: true
-
-		DSM.State {
-			id: animationState
-
-			DSM.SignalTransition {
-				targetState: listState
-				signal: animationView.onGotoAnimationList
-			}
-
-			onEntered: {
-				activeViewId = animationView.viewId
-			}
-
-		}
+		running: false
 
 		DSM.State {
 			id: listState
 
 			DSM.SignalTransition {
-				targetState: animationState
-				signal: listView.listCancelled
+				targetState: disconnectedState
+				signal: controller.onConnectionStateChanged
+				guard: (controller.connectionState === ConnectionState.DISCONNECTED)
+			}
+
+			DSM.SignalTransition {
+				targetState: connectingState
+				signal: controller.onConnectionStateChanged
+				guard: (controller.connectionState === ConnectionState.CONNECTING)
 			}
 
 			onEntered: {
@@ -106,7 +87,6 @@ Window {
 			}
 
 		}
-
 		DSM.State {
 			id: connectingState
 
@@ -127,6 +107,18 @@ Window {
 			}
 		}
 
+		onStarted: {
+			controller.openSocket();
+		}
+
+	}
+
+	onClosing: {
+		controller.closeSocket();
+	}
+
+	Component.onCompleted: {
+		applicationState.start();
 	}
 
 }

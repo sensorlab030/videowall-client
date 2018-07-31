@@ -5,16 +5,14 @@ Item {
 	id: listView
 	anchors.fill: parent
 
-	signal listCancelled
-
 	// Top menu
 	ActionBar {
 		id: actionBar
 		z: 10;
 
 		// Button 1
-		button1IconSource: "static/icons/baseline-arrow_back.svg"
-		onButton1Clicked: listView.listCancelled()
+		//button1IconSource: "static/icons/baseline-arrow_back.svg"
+		//onButton1Clicked: listView.listCancelled()
 
 	}
 
@@ -47,11 +45,13 @@ Item {
 				Text {
 					text: name
 					font.pixelSize: fontSizeNormal
+					elide: Text.ElideRight
 				}
 
 				Text {
 					text: description
 					font.pixelSize: fontSizeSmall
+					elide: Text.ElideRight
 				}
 
 			}
@@ -62,8 +62,6 @@ Item {
 					controller.setActiveAnimation(id);
 				}
 			}
-
-			//onActiveChanged: console.log("ACTIVE CHANGED")
 
 		}
 

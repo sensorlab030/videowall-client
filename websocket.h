@@ -23,13 +23,20 @@ public:
 	QString					errorString() const;
 
 signals:
-	void connectionStateChanged(ConnectionState::Enum state);
+	// Content signals
 	void animationsChanged(const QList<Animation*> &animations);
+	void activeAnimationIdChanged(int id);
+
+	// Connection signals
+	void connectionStateChanged(ConnectionState::Enum state);
 	void errorString(const QString& errorString);
 
 public slots:
 	void open();
 	void close();
+
+	// Property change requests
+	void sendActivateAnimationId(int activeAnimationId);
 
 private slots:
 	void onStateChanged(QAbstractSocket::SocketState state);
@@ -37,7 +44,12 @@ private slots:
 	void onMessage(const QString& message);
 
 private:
-	void hanleWallConfigMsg(const QJsonObject& data);
+	void hanleWallConfigMsg(const QJsonValue& data);
+	void handlePropertyChangesMsg(const QJsonValue& data);
+	void handleWallPropertyChange(const QString& propertyName, const QVariant& value);
+	void handleAnimationPropertyChange(int animationId, const QString& propertyName, const QVariant& value);
+	void sendWallPropertyChange(const QString& propertyName, const QVariant& value);
+	void sendAnimationPropertyChange(int animationId, const QString& propertyName, const QVariant& value);
 
 	QWebSocket*				_socket;
 	ConnectionState::Enum	_connectionState;

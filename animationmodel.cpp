@@ -14,8 +14,8 @@ void AnimationModel::clear() {
 
 void AnimationModel::addAnimation(Animation* animation) {
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
-	connect(animation, SIGNAL(activeChanged(bool)), this, SLOT(onAnimationActiveChanged(bool)));
 	animation->setParent(this);
+	connect(animation, SIGNAL(propertyUpdated()), this, SLOT(onAnimationPropertyChanged()));
 	_animations.append(animation);
 	endInsertRows();
 }
@@ -41,16 +41,15 @@ int AnimationModel::rowCount(const QModelIndex & parent) const {
 	return _animations.count();
 }
 
-void AnimationModel::onAnimationActiveChanged(bool active) {
-	Q_UNUSED(active);
-
+void AnimationModel::onAnimationPropertyChanged() {
 	QVector<int> roles;
 	roles.append(ActiveRole);
 
+	// TODO: Use the proper index for the changed animation, rather
+	// than updating the entire list
 	QModelIndex topLeft = index(0, 0);
 	QModelIndex bottomRight = index(_animations.size() - 1, 0);
 
-	qDebug() << "AM: Update data" << 0 << _animations.size() - 1;
 	emit dataChanged(topLeft, bottomRight, roles);
 }
 

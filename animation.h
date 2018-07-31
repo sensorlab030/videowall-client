@@ -19,10 +19,11 @@ public:
 	bool		active() const;
 
 public slots:
-	void handleActiveAnimationIdChange(int activeAnimationId);
+	void onActiveAnimationChanged(int activeAnimationId);
 
 signals:
-	void activeChanged(bool active);
+	void propertyUpdated();
+	void activeChanged(bool);
 
 private:
 	int			_id;

@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include "animation.h"
+#include "socketpropertynames.h"
 
 WebSocket::WebSocket(QObject *parent) : QObject(parent) {
 
@@ -17,7 +18,7 @@ WebSocket::WebSocket(QObject *parent) : QObject(parent) {
 }
 
 void WebSocket::open() {
-	_socket->open(QUrl("ws://localhost:9003"));
+	_socket->open(QUrl("ws://192.168.1.56:9003"));
 }
 
 void WebSocket::close() {
@@ -47,7 +48,6 @@ void WebSocket::onStateChanged(QAbstractSocket::SocketState state) {
 	if (newState != _connectionState) {
 		_connectionState = newState;
 		emit connectionStateChanged(_connectionState);
-		qDebug() << "Connection state:" << _connectionState;
 	}
 
 }
@@ -72,44 +72,47 @@ void WebSocket::onMessage(const QString& message) {
 
 		// Fetch data object
 		QJsonValue dataValue = root.value("data");
-		if (!dataValue.isObject() && !dataValue.isNull()) {
-			throw new QString("Invalid 'data' property");
-		}
-		QJsonObject data = dataValue.toObject();
 
 		// Channel message to correct method
-		if (msgType == "config") {
-			hanleWallConfigMsg(data);
+		if (msgType == WS_MSG_TYPE_CONFIG) {
+			hanleWallConfigMsg(dataValue);
+		} else if (msgType == WS_MSG_TYPE_PROPERTIES) {
+			handlePropertyChangesMsg(dataValue);
 		} else {
 			throw new QString("Unknown message type");
 		}
 
 	} catch (const QString& error) {
-		qDebug() << "Disregarding invalid message:" << error;
+		qWarning() << "Disregarding invalid message:" << error;
 	}
 
 }
 
-void WebSocket::hanleWallConfigMsg(const QJsonObject& data) {
+void WebSocket::hanleWallConfigMsg(const QJsonValue& data) {
 
 	try {
 
-		// @TODO Wall properties
+		// Check data
+		if (data.isNull() || !data.isObject()) {
+			throw new QString("Invalid data");
+		}
+		QJsonObject dataObj = data.toObject();
 
+		// @TODO Static wall properties
 
 		// Animations
-		QJsonValue animationListValue = data.value("animations");
+		QJsonValue animationListValue = dataObj.value("animations");
 		if (!animationListValue.isArray()) {
 			throw new QString("Invalid 'animations' property");
 		}
 		QJsonArray animationList = animationListValue.toArray();
 
 		QList<Animation*> animationResultList;
-		QJsonArray::iterator animationIt;
-		for (animationIt = animationList.begin(); animationIt != animationList.end(); animationIt++) {
+		QJsonArray::iterator it;
+		for (it = animationList.begin(); it != animationList.end(); it++) {
 
 			// Fetch object
-			QJsonValue animationValue = *animationIt;
+			QJsonValue animationValue = *it;
 			if (!animationValue.isObject()) {
 				throw new QString("Invalid animation object");
 			}
@@ -120,7 +123,7 @@ void WebSocket::hanleWallConfigMsg(const QJsonObject& data) {
 			if (!idValue.isDouble()) {
 				throw new QString("Invalid animation 'id' property");
 			}
-			int id = (int) idValue.toDouble();
+			int id = idValue.toInt();
 
 			QJsonValue nameValue = animation.value("name");
 			if (!nameValue.isString()) {
@@ -134,15 +137,136 @@ void WebSocket::hanleWallConfigMsg(const QJsonObject& data) {
 			}
 			QString description = descriptionValue.toString();
 
-			animationResultList.append(new Animation(id, name, description));
+			Animation* animationObj = new Animation(id, name, description);
+			connect(this, SIGNAL(activeAnimationIdChanged(int)), animationObj, SLOT(onActiveAnimationChanged(int)));
+
+			animationResultList.append(animationObj);
 		}
 
 		emit animationsChanged(animationResultList);
 
 	} catch (const QString& error) {
-		qDebug() << "Disregarding invalid wall config message:" << error;
+		qWarning() << "Disregarding invalid wall config message:" << error;
 	}
 
+}
+
+void WebSocket::handlePropertyChangesMsg(const QJsonValue& data) {
+
+	try {
+
+		// Check data
+		if (data.isNull() || !data.isArray()) {
+			throw new QString("Invalid data");
+		}
+		QJsonArray propertyArray = data.toArray();
+
+		// Loop over properties
+		QJsonArray::iterator it;
+		for (it = propertyArray.begin(); it != propertyArray.end(); it++) {
+			QJsonValue propertyVal = *it;
+
+			try {
+
+				// Parse to object
+				if (!propertyVal.isObject()) {
+					throw new QString("invalid object");
+				}
+				QJsonObject propertyObj = propertyVal.toObject();
+
+				// Parse scope
+				QJsonValue scopeValue = propertyObj.value("scope");
+				if (!scopeValue.isString()) {
+					throw new QString("'scope' property invalid");
+				}
+				QString scope = scopeValue.toString();
+
+				// Parse name
+				QJsonValue nameValue = propertyObj.value("name");
+				if (!nameValue.isString()) {
+					throw new QString("'name' property invalid");
+				}
+				QString name = nameValue.toString();
+
+				// Parse value
+				QJsonValue valueValue = propertyObj.value("value");
+				if (valueValue.isNull()) {
+					throw new QString("'value' property invalid");
+				}
+				QVariant value = valueValue.toVariant();
+
+				if (scope == "wall") {
+
+					// Handle property change
+					handleWallPropertyChange(name, value);
+
+				} else if (scope == "animation") {
+
+					QJsonValue animationIdValue = propertyObj.value("animationId");
+					if (!animationIdValue.isDouble()) {
+						throw new QString("'animationId' property invalid");
+					}
+					int animationId = animationIdValue.toInt();
+
+					// Handle property change
+					handleAnimationPropertyChange(animationId, name, value);
+
+				} else {
+					throw new QString("'scope' property value invalid");
+				}
+
+			} catch (const QString& error) {
+				qWarning() << "Ignoring property msg, " << error;
+			}
+
+		}
+
+	} catch (const QString& error) {
+		qWarning() << "Disregarding invalid active animation change message:" << error;
+	}
+
+}
+
+void WebSocket::handleWallPropertyChange(const QString& propertyName, const QVariant& value) {
+	if (propertyName == WS_WALL_ACTIVE_ANIMATION_ID) {
+		emit activeAnimationIdChanged(value.toInt());
+	}
+}
+
+void WebSocket::handleAnimationPropertyChange(int animationId, const QString& propertyName, const QVariant& value) {
+	qDebug() << "handle animProp" << animationId << propertyName << value;
+}
+
+void WebSocket::sendActivateAnimationId(int activeAnimationId) {
+	sendWallPropertyChange(WS_WALL_ACTIVE_ANIMATION_ID, activeAnimationId);
+}
+
+void WebSocket::sendWallPropertyChange(const QString& propertyName, const QVariant& value) {
+
+	// Add property
+	QJsonObject propertyObject;
+	propertyObject.insert("scope", "wall");
+	propertyObject.insert("name", propertyName);
+	propertyObject.insert("value", QJsonValue::fromVariant(value));
+
+	// Set data
+	QJsonArray data;
+	data.append(propertyObject);
+
+	QJsonObject rootObject;
+	rootObject.insert("msg", WS_MSG_TYPE_PROPERTIES);
+	rootObject.insert("data", data);
+
+	// Create document root
+	QJsonDocument document;
+	document.setObject(rootObject);
+
+	// Send message
+	_socket->sendTextMessage(document.toJson());
+
+}
+
+void WebSocket::sendAnimationPropertyChange(int animationId, const QString& propertyName, const QVariant& value) {
 }
 
 QString WebSocket::errorString() const {
@@ -153,7 +277,7 @@ void WebSocket::onSocketError(QAbstractSocket::SocketError error) {
 	if (_errorString != _socket->errorString()) {
 		_errorString = _socket->errorString();
 
-		qDebug() << "Socket error:" << error << _errorString;
+		qWarning() << "Socket error:" << error << _errorString;
 		emit errorString(_errorString);
 	}
 }

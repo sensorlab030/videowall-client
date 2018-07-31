@@ -31,8 +31,10 @@ public:
 public slots:
 	void clear();
 	void addAnimation(Animation* animation);
-	void onAnimationActiveChanged(bool active);
 	void setAnimations(const QList<Animation*> &animations);
+
+private slots:
+	void onAnimationPropertyChanged();
 
 private:
 	QList<Animation*>	_animations;

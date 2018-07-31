@@ -7,6 +7,8 @@ Animation::Animation(int id, const QString &name, const QString& description, QO
 	_name = name;
 	_description = description;
 	_active = false;
+
+	connect(this, SIGNAL(activeChanged(bool)), this, SIGNAL(propertyUpdated()));
 }
 
 int Animation::id() const {
@@ -25,11 +27,11 @@ bool Animation::active() const {
 	return _active;
 }
 
-void Animation::handleActiveAnimationIdChange(int activeAnimationId) {
+void Animation::onActiveAnimationChanged(int activeAnimationId) {
 	bool active = (activeAnimationId == _id);
 	if (active != _active) {
 		_active = active;
-		qDebug() << "ANIM ACTIVE CH" << _id << _active;
 		emit activeChanged(_active);
+
 	}
 }
