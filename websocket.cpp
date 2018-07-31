@@ -45,8 +45,6 @@ void WebSocket::onStateChanged(QAbstractSocket::SocketState state) {
 			break;
 	}
 
-	qDebug() << "STATE CHANGED " << newState;
-
 	if (newState != _connectionState) {
 		_connectionState = newState;
 		emit connectionStateChanged(_connectionState);
