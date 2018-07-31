@@ -9,5 +9,6 @@
         <file>ConnectingView.qml</file>
         <file>DisconnectedView.qml</file>
         <file>PulseLoader.qml</file>
+        <file>ControlBar.qml</file>
     </qresource>
 </RCC>

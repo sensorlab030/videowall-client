@@ -25,13 +25,12 @@ Item {
 	ListView {
 		anchors.top: actionBar.bottom
 		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.bottom: controlBar.top
 		width: parent.width - gridSize * 2
-		height: parent.height - actionBar.height
 		spacing: gridSize
-
+		bottomMargin: gridSize
 		model: animationModel
 		delegate: animationDelegate
-
 	}
 
 	Component {
@@ -71,6 +70,10 @@ Item {
 
 		}
 
+	}
+
+	ControlBar {
+		id: controlBar
 	}
 
 }

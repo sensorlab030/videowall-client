@@ -17,9 +17,7 @@ SOURCES += \
     animation.cpp \
     videowallcontroller.cpp \
     animationmodel.cpp \
-    websocket.cpp \
-    property.cpp \
-    intproperty.cpp
+    websocket.cpp
 
 RESOURCES += qml.qrc \
     statics.qrc
@@ -44,6 +42,4 @@ HEADERS += \
     enums.h \
     animationmodel.h \
     websocket.h \
-    socketpropertynames.h \
-    property.h \
-    intproperty.h
+    socketpropertynames.h

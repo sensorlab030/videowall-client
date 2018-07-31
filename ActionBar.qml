@@ -2,9 +2,6 @@ import QtQuick 2.0
 import QtQuick.Controls.Material 2.1
 import QtGraphicalEffects 1.0
 
-/**
- * Action bar + bottom margin
- */
 Item {
 	id: actionBar
 	property int margin: gridSize
@@ -62,7 +59,7 @@ Item {
 	}
 
 	DropShadow {
-		anchors.fill: actionBar
+		anchors.fill: parent
 		horizontalOffset: 0
 		verticalOffset: 3
 		radius: 4
