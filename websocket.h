@@ -26,6 +26,7 @@ signals:
 	// Content signals
 	void animationsChanged(const QList<Animation*> &animations);
 	void activeAnimationIdChanged(int id);
+	void brightnessChanged(int brightness);
 
 	// Connection signals
 	void connectionStateChanged(ConnectionState::Enum state);
@@ -37,6 +38,7 @@ public slots:
 
 	// Property change requests
 	void sendActivateAnimationId(int activeAnimationId);
+	void sendBrightness(int brightness);
 
 private slots:
 	void onStateChanged(QAbstractSocket::SocketState state);

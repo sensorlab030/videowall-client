@@ -7,6 +7,7 @@
 
 // Wall scope
 #define WS_WALL_ACTIVE_ANIMATION_ID			"activeAnimationId"
+#define WS_WALL_BRIGHTNESS					"brightness"
 
 // Animation scope
 

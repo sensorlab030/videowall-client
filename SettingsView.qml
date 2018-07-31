@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
+import nl.sensorlab.videowall 1.0
 
 Item {
 	id: settingsView
@@ -30,10 +31,28 @@ Item {
 		}
 
 		Slider {
+			id: brightnessSlider
 			width: parent.width
-			value: 0.5
+			value: controller.brightness
+			from: 0
+			to: 255
+			stepSize: 1
+			live: false
+
+			onValueChanged: {
+				console.log("SET VALUE", value);
+				controller.brightness = value;
+			}
+
 		}
 
 	}
+
+//	controller.onBrightnessChanged: {
+//		console.log("CHANGE");
+//		brightnessSlider.live = false
+//		brightnessSlider.value = controller.brightness
+//		brightnessSlider.live = true
+//	}
 
 }

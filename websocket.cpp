@@ -45,6 +45,8 @@ void WebSocket::onStateChanged(QAbstractSocket::SocketState state) {
 			break;
 	}
 
+	qDebug() << "STATE CHANGED " << newState;
+
 	if (newState != _connectionState) {
 		_connectionState = newState;
 		emit connectionStateChanged(_connectionState);
@@ -230,6 +232,8 @@ void WebSocket::handlePropertyChangesMsg(const QJsonValue& data) {
 void WebSocket::handleWallPropertyChange(const QString& propertyName, const QVariant& value) {
 	if (propertyName == WS_WALL_ACTIVE_ANIMATION_ID) {
 		emit activeAnimationIdChanged(value.toInt());
+	} else if (propertyName == WS_WALL_BRIGHTNESS) {
+		emit brightnessChanged(value.toFloat());
 	}
 }
 
@@ -239,6 +243,10 @@ void WebSocket::handleAnimationPropertyChange(int animationId, const QString& pr
 
 void WebSocket::sendActivateAnimationId(int activeAnimationId) {
 	sendWallPropertyChange(WS_WALL_ACTIVE_ANIMATION_ID, activeAnimationId);
+}
+
+void WebSocket::sendBrightness(int brightness) {
+	sendWallPropertyChange(WS_WALL_BRIGHTNESS, brightness);
 }
 
 void WebSocket::sendWallPropertyChange(const QString& propertyName, const QVariant& value) {
