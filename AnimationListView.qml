@@ -10,8 +10,6 @@ Item {
 	// Top menu
 	ActionBar {
 		id: actionBar
-		z: 10;
-
 		text: "Animations"
 
 		// Button 1
@@ -73,10 +71,6 @@ Item {
 
 		}
 
-	}
-
-	onSettingsClicked: {
-		console.log("SETTINGS CLICKED");
 	}
 
 }

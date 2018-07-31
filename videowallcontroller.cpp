@@ -37,6 +37,10 @@ int VideoWallController::activeAnimationId() const {
 	return (_activeAnimation != 0) ? _activeAnimation->id() : -1;
 }
 
+void VideoWallController::setBrightness(float brightness) {
+
+}
+
 AnimationModel* VideoWallController::getAnimationModel() {
 	return _animationModel;
 }

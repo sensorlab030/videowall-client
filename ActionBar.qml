@@ -20,6 +20,7 @@ Item {
 	width: parent.width
 	height: (barHeight + margin)
 	anchors.top: parent.top
+	z: 10
 
 	// Bar background
 	Rectangle {

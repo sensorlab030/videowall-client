@@ -23,14 +23,15 @@ Window {
 	// Current active view
 	property int activeViewId: -1
 
-	AnimationView {
-		id: animationView
+	// All views
+	AnimationListView {
+		id: listView
 		readonly property int viewId: 1
 		visible: (activeViewId === this.viewId)
 	}
 
-	AnimationList {
-		id: listView
+	SettingsView {
+		id: settingsView
 		readonly property int viewId: 2
 		visible: (activeViewId === this.viewId)
 	}
@@ -47,14 +48,17 @@ Window {
 		visible: (activeViewId === this.viewId)
 	}
 
-	// Handle application view state
+	// Application view state
+	// One layer for connection (connected, connecting, disconnected)
+	// Then the connected layer with multiple views
 	DSM.StateMachine {
 		id: applicationState
 		initialState: disconnectedState
-		running: false
+		running: true
 
 		DSM.State {
-			id: listState
+			id: connectedState
+			initialState: listState
 
 			DSM.SignalTransition {
 				targetState: disconnectedState
@@ -68,9 +72,36 @@ Window {
 				guard: (controller.connectionState === ConnectionState.CONNECTING)
 			}
 
-			onEntered: {
-				activeViewId = listView.viewId
+			DSM.State {
+				id: listState
+
+				DSM.SignalTransition {
+					targetState: settingsState
+					signal: listView.settingsClicked
+				}
+
+				onEntered: {
+					activeViewId = listView.viewId
+				}
 			}
+
+			DSM.State {
+				id: settingsState
+
+				DSM.SignalTransition {
+					targetState: listState
+					signal: settingsView.backClicked
+				}
+
+				onEntered: {
+					activeViewId = settingsView.viewId
+				}
+			}
+
+			onEntered: {
+
+			}
+
 		}
 
 		DSM.State {
@@ -87,6 +118,7 @@ Window {
 			}
 
 		}
+
 		DSM.State {
 			id: connectingState
 
@@ -97,7 +129,7 @@ Window {
 			}
 
 			DSM.SignalTransition {
-				targetState: disconnectedState
+				targetState: connectedState
 				signal: controller.onConnectionStateChanged
 				guard: (controller.connectionState === ConnectionState.DISCONNECTED)
 			}
@@ -111,10 +143,6 @@ Window {
 			controller.openSocket();
 		}
 
-	}
-
-	Component.onCompleted: {
-		applicationState.start();
 	}
 
 }

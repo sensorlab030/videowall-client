@@ -11,6 +11,7 @@ class VideoWallController : public QObject {
 	Q_OBJECT
 	Q_PROPERTY(ConnectionState::Enum connectionState READ connectionState NOTIFY connectionStateChanged)
 	Q_PROPERTY(int activeAnimationId READ activeAnimationId NOTIFY activeAnimationIdChanged)
+	Q_PROPERTY(float brightness READ brightness NOTIFY brightnessChanged)
 	Q_PROPERTY(QString socketError READ socketError NOTIFY socketError)
 
 public:
@@ -32,11 +33,13 @@ public slots:
 	void openSocket();
 	void closeSocket();
 	void setActiveAnimation(int animationId);
+	void setBrightness(float brightness);
 
 private:
 	WebSocket*			_socket;
 	AnimationModel*		_animationModel;
 	Animation*			_activeAnimation;
+	float				_brightness;
 
 };
 
