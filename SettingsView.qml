@@ -40,19 +40,10 @@ Item {
 			live: false
 
 			onValueChanged: {
-				console.log("SET VALUE", value);
 				controller.brightness = value;
 			}
 
 		}
 
 	}
-
-//	controller.onBrightnessChanged: {
-//		console.log("CHANGE");
-//		brightnessSlider.live = false
-//		brightnessSlider.value = controller.brightness
-//		brightnessSlider.live = true
-//	}
-
 }
