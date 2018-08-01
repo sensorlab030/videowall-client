@@ -28,7 +28,6 @@ Item {
 		anchors.bottom: controlBar.top
 		width: parent.width - gridSize * 2
 		spacing: gridSize
-		bottomMargin: gridSize
 		model: animationModel
 		delegate: animationDelegate
 	}
@@ -48,12 +47,14 @@ Item {
 				anchors.centerIn: parent
 
 				Text {
+					width: parent.width
 					text: name
 					font.pixelSize: fontSizeNormal
 					elide: Text.ElideRight
 				}
 
 				Text {
+					width: parent.width
 					text: description
 					font.pixelSize: fontSizeSmall
 					elide: Text.ElideRight
