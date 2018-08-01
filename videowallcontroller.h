@@ -28,6 +28,7 @@ public:
 
 signals:
 	void activeAnimationIdChanged(int activeAnimationId);
+	void activeAnimationChanged(int id, const QString& name);
 	void brightnessChanged(int brightness);
 
 	void connectionStateChanged(ConnectionState::Enum state);
@@ -40,6 +41,7 @@ public slots:
 	void setBrightness(int brightness);
 
 private slots:
+	void onActiveAnimationIdChanged(int id);
 	void onBrightnessChanged(int brightness);
 
 private:

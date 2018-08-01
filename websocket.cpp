@@ -268,7 +268,6 @@ void WebSocket::sendWallPropertyChange(const QString& propertyName, const QVaria
 	document.setObject(rootObject);
 
 	// Send message
-	qDebug() << document.toJson();
 	_socket->sendTextMessage(document.toJson());
 
 }

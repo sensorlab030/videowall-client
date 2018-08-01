@@ -37,6 +37,7 @@ Item {
 			anchors.left: parent.left
 			anchors.leftMargin: parent.buttonMargin
 			onClicked: actionBar.button1Clicked()
+			z: parent.z + 1
 		}
 
 		Text {
@@ -54,12 +55,20 @@ Item {
 			anchors.right: parent.right
 			anchors.rightMargin: parent.buttonMargin
 			onClicked: actionBar.button2Clicked()
+			z: parent.z + 1
+		}
+
+		// Have mouseArea so mouse events don't propagate
+		// to elements underneath this bar
+		MouseArea {
+			anchors.fill: parent
+			onClicked: mouse.accepted = true
 		}
 
 	}
 
 	DropShadow {
-		anchors.fill: parent
+		anchors.fill: source
 		horizontalOffset: 0
 		verticalOffset: 3
 		radius: 4

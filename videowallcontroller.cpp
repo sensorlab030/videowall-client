@@ -16,11 +16,11 @@ VideoWallController::VideoWallController(QObject *parent) : QObject(parent) {
 	connect(_socket, SIGNAL(errorString(QString)), this, SIGNAL(socketError(QString)));
 	connect(_socket, SIGNAL(animationsChanged(QList<Animation*>)), _animationModel, SLOT(setAnimations(QList<Animation*>)));
 	connect(_socket, SIGNAL(activeAnimationIdChanged(int)), this, SIGNAL(activeAnimationIdChanged(int)));
+	connect(_socket, SIGNAL(activeAnimationIdChanged(int)), this, SLOT(onActiveAnimationIdChanged(int)));
 	connect(_socket, SIGNAL(brightnessChanged(int)), this, SLOT(onBrightnessChanged(int)));
 	connect(_socket, SIGNAL(brightnessChanged(int)), this, SIGNAL(brightnessChanged(int)));
 
 	_activeAnimation = 0;
-
 }
 
 void VideoWallController::openSocket() {
@@ -29,6 +29,11 @@ void VideoWallController::openSocket() {
 
 void VideoWallController::closeSocket() {
 	_socket->close();
+}
+
+void VideoWallController::onActiveAnimationIdChanged(int id) {
+	_activeAnimation = _animationModel->getAnimation(id);
+	emit activeAnimationChanged(id, _activeAnimation->name());
 }
 
 void VideoWallController::setActiveAnimation(int animationId) {
