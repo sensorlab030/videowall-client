@@ -10,5 +10,6 @@
         <file>DisconnectedView.qml</file>
         <file>PulseLoader.qml</file>
         <file>ControlBar.qml</file>
+        <file>DebugGrid.qml</file>
     </qresource>
 </RCC>

@@ -7,7 +7,7 @@ import QtGraphicalEffects 1.0
 Rectangle {
 	id: controlBar
 	property int margin: gridSize
-	property int barHeight: gridSize * 6
+	property int barHeight: gridSize * 4
 
 	width: parent.width
 	height: barHeight + margin
@@ -28,7 +28,7 @@ Rectangle {
 			id: settingsBtn
 			width: gridSize * 4
 			height: width
-			x: gridSize  *2
+			anchors.leftMargin: gridSize
 			anchors.verticalCenter: parent.verticalCenter
 
 			opacity: 0.2
@@ -63,7 +63,7 @@ Rectangle {
 			anchors.rightMargin: gridSize
 			anchors.verticalCenter: parent.verticalCenter
 
-			spacing: gridSize * 0.5
+			spacing: gridSize * 0.25
 
 			Label {
 				id: animationName
@@ -98,7 +98,9 @@ Rectangle {
 			id: playBtn
 			width: gridSize * 4
 			height: width
-			x: parent.width - width - gridSize * 2
+			anchors.right: parent.right
+			anchors.rightMargin: gridSize
+//			x: parent.width - width - gridSize * 2
 			anchors.verticalCenter: parent.verticalCenter
 			z: parent.z + 1
 

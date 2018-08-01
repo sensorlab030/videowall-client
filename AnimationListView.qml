@@ -38,13 +38,14 @@ Item {
 		Rectangle {
 			id: animationCard
 			width: parent.width
-			height: gridSize * 6
+			height: gridSize * 5
 			color: active ? Material.accent : 'white'
 
 			Column {
 				width: parent.width - gridSize * 2
 				height: parent.height - gridSize * 2
 				anchors.centerIn: parent
+				spacing: gridSize * 0.25
 
 				Text {
 					width: parent.width

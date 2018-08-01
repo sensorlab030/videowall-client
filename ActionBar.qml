@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.0
 Item {
 	id: actionBar
 	property int margin: gridSize
-	property int barHeight: gridSize * 6
+	property int barHeight: gridSize * 4
 
 	property alias text:text.text
 	property alias button1IconSource:button1.iconSource

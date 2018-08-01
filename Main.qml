@@ -1,5 +1,5 @@
 import QtQuick 2.11
-import QtQuick.Window 2.11
+import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQml.StateMachine 1.0 as DSM
@@ -8,17 +8,18 @@ import nl.sensorlab.videowall 1.0
 Window {
 	id: main
 	visible: true
-	width: 600
-	height: 1024
+	width: 480
+	height: 800
 	title: qsTr("Video Wall Controller")
 	Material.theme: Material.theme
 	color: Material.background
 
 	// Constants
-	readonly property int gridSize: 12
-	readonly property int fontSizeNormal: 24
-	readonly property int fontSizeBig:  32
-	readonly property int fontSizeSmall: 16
+	readonly property int gridSize: height * 0.02;
+	readonly property int fontSizeNormal: gridSize * 1.5
+	readonly property int fontSizeBig:  gridSize * 2
+	readonly property int fontSizeSmall: gridSize
+	readonly property bool debugMode: true
 
 	// Current active view
 	property int activeViewId: -1
@@ -47,6 +48,8 @@ Window {
 		readonly property int viewId: 4
 		visible: (activeViewId === this.viewId)
 	}
+
+	DebugGrid{}
 
 	// Application view state
 	// One layer for connection (connected, connecting, disconnected)
