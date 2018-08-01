@@ -33,7 +33,7 @@ void VideoWallController::closeSocket() {
 
 void VideoWallController::onActiveAnimationIdChanged(int id) {
 	_activeAnimation = _animationModel->getAnimation(id);
-	emit activeAnimationChanged(id, _activeAnimation->name());
+	emit activeAnimationChanged(id, _activeAnimation->name(), _activeAnimation->description());
 }
 
 void VideoWallController::setActiveAnimation(int animationId) {

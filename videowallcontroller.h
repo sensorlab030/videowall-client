@@ -28,7 +28,7 @@ public:
 
 signals:
 	void activeAnimationIdChanged(int activeAnimationId);
-	void activeAnimationChanged(int id, const QString& name);
+	void activeAnimationChanged(int id, const QString& name, const QString& description);
 	void brightnessChanged(int brightness);
 
 	void connectionStateChanged(ConnectionState::Enum state);

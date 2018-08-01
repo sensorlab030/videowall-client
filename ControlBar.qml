@@ -24,43 +24,105 @@ Rectangle {
 		color: "#FF2a373e"
 
 		// Settings button
-		Rectangle {
+		Item {
 			id: settingsBtn
 			width: gridSize * 4
 			height: width
-			radius: width * 0.5
 			x: gridSize  *2
 			anchors.verticalCenter: parent.verticalCenter
-			color: 'white'
+
+			opacity: 0.2
+
+			// SVG image
+			Image {
+				id: svgImage
+				width: parent.width
+				height: width
+				visible: false
+
+				source: 'static/icons/baseline-expand_less.svg'
+				sourceSize.width: width
+				sourceSize.height: height
+			}
+			ColorOverlay{
+				anchors.centerIn: parent
+				width: parent.width * 0.6
+				height: width
+
+				source:svgImage
+				color: Material.foreground
+				antialiasing: true
+			}
+
 		}
 
-		Label {
-			id: animationName
-
+		Column {
 			anchors.left: settingsBtn.right
 			anchors.leftMargin: gridSize
 			anchors.right: playBtn.left
 			anchors.rightMargin: gridSize
-			height: parent.height
 			anchors.verticalCenter: parent.verticalCenter
 
-			horizontalAlignment: Text.AlignHCenter
-			verticalAlignment: Text.AlignVCenter
+			spacing: gridSize * 0.5
 
-			font.pixelSize: fontSizeSmall
-			elide: Text.ElideRight
+			Label {
+				id: animationName
+				width: parent.width
+
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignVCenter
+
+				font.pixelSize: fontSizeSmall
+				elide: Text.ElideRight
+			}
+
+			Label {
+				id: animationDescription
+
+				width: parent.width
+
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignVCenter
+
+				opacity: 0.6
+				text: "ers\Wilco\Projects\sensorlab\videowall\videowall-client\debug\VideoWallClient"
+
+				font.pixelSize: fontSizeSmall
+				elide: Text.ElideRight
+			}
+
 		}
 
 		// Play pause button
-		Rectangle {
+		Item {
 			id: playBtn
 			width: gridSize * 4
 			height: width
-			radius: width * 0.5
 			x: parent.width - width - gridSize * 2
 			anchors.verticalCenter: parent.verticalCenter
-			color: 'white'
 			z: parent.z + 1
+
+			// SVG image
+			Image {
+				id: playBtnSvgImage
+				width: parent.width
+				height: width
+				visible: false
+
+				source: 'static/icons/baseline-pause_circle_filled.svg'
+				sourceSize.width: width
+				sourceSize.height: height
+			}
+			ColorOverlay{
+				anchors.centerIn: parent
+				width: parent.width * 0.6
+				height: width
+
+				source:playBtnSvgImage
+				color: Material.foreground
+				antialiasing: true
+			}
+
 		}
 
 		// Have mouseArea so mouse events don't propagate
@@ -87,6 +149,7 @@ Rectangle {
 
 		onActiveAnimationChanged: {
 			animationName.text = name;
+			animationDescription.text = description
 		}
 
 	}
