@@ -1,4 +1,4 @@
-QT += quick websockets
+QT += quick websockets svg
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
