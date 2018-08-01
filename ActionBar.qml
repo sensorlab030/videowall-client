@@ -22,7 +22,7 @@ Item {
 	// Bar background
 	Rectangle {
 		id: bar
-		property int buttonSize: height * 0.8
+		property int buttonSize: gridSize * 2
 		property int buttonMargin: (height - buttonSize) / 2
 
 		width: parent.width

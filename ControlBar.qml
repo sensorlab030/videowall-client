@@ -26,8 +26,9 @@ Rectangle {
 		// Settings button
 		Item {
 			id: settingsBtn
-			width: gridSize * 4
+			width: gridSize * 2.5
 			height: width
+			anchors.left: parent.left
 			anchors.leftMargin: gridSize
 			anchors.verticalCenter: parent.verticalCenter
 
@@ -46,9 +47,8 @@ Rectangle {
 			}
 			ColorOverlay{
 				anchors.centerIn: parent
-				width: parent.width * 0.6
-				height: width
-
+				width: source.width
+				height: source.height
 				source:svgImage
 				color: Material.foreground
 				antialiasing: true
@@ -96,11 +96,10 @@ Rectangle {
 		// Play pause button
 		Item {
 			id: playBtn
-			width: gridSize * 4
+			width: gridSize * 2.5
 			height: width
 			anchors.right: parent.right
 			anchors.rightMargin: gridSize
-//			x: parent.width - width - gridSize * 2
 			anchors.verticalCenter: parent.verticalCenter
 			z: parent.z + 1
 
@@ -110,16 +109,15 @@ Rectangle {
 				width: parent.width
 				height: width
 				visible: false
-
 				source: 'static/icons/baseline-pause_circle_filled.svg'
 				sourceSize.width: width
 				sourceSize.height: height
 			}
-			ColorOverlay{
-				anchors.centerIn: parent
-				width: parent.width * 0.6
-				height: width
 
+			ColorOverlay {
+				anchors.centerIn: parent
+				width: source.width
+				height: source.height
 				source:playBtnSvgImage
 				color: Material.foreground
 				antialiasing: true

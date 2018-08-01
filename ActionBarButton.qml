@@ -26,11 +26,11 @@ Item {
 		sourceSize.width: width
 		sourceSize.height: height
 	}
+
 	ColorOverlay{
 		anchors.centerIn: parent
-		width: parent.width * 0.6
-		height: width
-
+		width: source.width
+		height: source.height
 		source:svgImage
 		color: Material.foreground
 		antialiasing: true
