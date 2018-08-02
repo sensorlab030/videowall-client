@@ -11,5 +11,6 @@
         <file>PulseLoader.qml</file>
         <file>ControlBar.qml</file>
         <file>DebugGrid.qml</file>
+        <file>ViewChangeTransition.qml</file>
     </qresource>
 </RCC>

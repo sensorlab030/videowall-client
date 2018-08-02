@@ -29,24 +29,32 @@ Window {
 		id: listView
 		readonly property int viewId: 1
 		visible: (activeViewId === this.viewId)
+		opacity: (activeViewId === this.viewId) ? 1 : 0
+		Behavior on opacity { ViewChangeTransition{} }
 	}
 
 	SettingsView {
 		id: settingsView
 		readonly property int viewId: 2
 		visible: (activeViewId === this.viewId)
+		opacity: (activeViewId === this.viewId) ? 1 : 0
+		Behavior on opacity { ViewChangeTransition{} }
 	}
 
 	DisconnectedView {
 		id: disconnectedView
 		readonly property int viewId: 3
 		visible: (activeViewId === this.viewId)
+		opacity: (activeViewId === this.viewId) ? 1 : 0
+		Behavior on opacity { ViewChangeTransition{} }
 	}
 
 	ConnectingView {
 		id: connectingView
 		readonly property int viewId: 4
 		visible: (activeViewId === this.viewId)
+		opacity: (activeViewId === this.viewId) ? 1 : 0
+		Behavior on opacity { ViewChangeTransition{} }
 	}
 
 	DebugGrid{}
@@ -99,10 +107,6 @@ Window {
 				onEntered: {
 					activeViewId = settingsView.viewId
 				}
-			}
-
-			onEntered: {
-
 			}
 
 		}
