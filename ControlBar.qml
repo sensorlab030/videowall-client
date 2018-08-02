@@ -29,6 +29,7 @@ Item {
 			anchors.left: parent.left
 			anchors.leftMargin: gridSize
 			anchors.verticalCenter: parent.verticalCenter
+			state: settingsPanel.state
 			z: parent.z + 1
 
 			// SVG image
@@ -47,6 +48,28 @@ Item {
 				height: source.height
 				color: Material.foreground
 				antialiasing: true
+			}
+
+			states: [
+				State {
+					name: "closed"
+					PropertyChanges {
+						target: settingsBtnSvgImage;
+						source: 'static/icons/baseline-expand_less.svg' }
+				},
+				State {
+					name: "open"
+					PropertyChanges {
+						target: settingsBtnSvgImage;
+						source: 'static/icons/baseline-expand_more.svg' }
+				}
+			]
+
+			MouseArea {
+				anchors.fill: parent
+				onClicked: {
+					settingsPanel.state = (settingsPanel.state == "closed") ? "open" : "closed"
+				}
 			}
 
 		}

@@ -75,6 +75,56 @@ Item {
 
 	}
 
+	AnimationSettings {
+		id: settingsPanel
+
+		height: parent.height - controlBar.height
+		anchors.left: parent.left
+		anchors.right: parent.right
+		z: 15
+		state: "closed"
+
+		states: [
+			State {
+				name: "open"
+				AnchorChanges {
+					target: settingsPanel;
+					anchors.top: parent.top
+				}
+				PropertyChanges {
+					target: settingsPanel
+					opacity: 1
+				}
+			},
+			State {
+				name: "closed"
+				AnchorChanges {
+					target: settingsPanel;
+					anchors.top: controlBar.top
+				}
+				PropertyChanges {
+					target: settingsPanel
+					opacity: 0
+				}
+
+			}
+
+		]
+
+		transitions: Transition {
+			AnchorAnimation {
+				duration: 200
+				easing.type: Easing.InOutQuad
+			}
+			NumberAnimation {
+				duration:  200
+				properties: "opacity"
+				easing.type: Easing.InOutQuad
+			}
+		}
+
+	}
+
 	ControlBar {
 		id: controlBar
 	}
