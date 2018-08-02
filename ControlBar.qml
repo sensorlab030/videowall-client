@@ -4,52 +4,47 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 
-Rectangle {
+Item {
 	id: controlBar
-	property int margin: gridSize
-	property int barHeight: gridSize * 4
 
-	width: parent.width
-	height: barHeight + margin
+	height: gridSize * 4
 	anchors.bottom: parent.bottom
-	z: 10
-	color: 'transparent'
+	anchors.left: parent.left
+	anchors.right: parent.right
+
+	z: 20
 
 	// Bar background
 	Rectangle {
 		id: bar
-		width: parent.width
-		height: barHeight
-		anchors.bottom: parent.bottom
-		color: "#FF2a373e"
+		anchors.fill: parent
+		color: main.barColor
 
 		// Settings button
 		Item {
+
 			id: settingsBtn
 			width: gridSize * 2.5
 			height: width
 			anchors.left: parent.left
 			anchors.leftMargin: gridSize
 			anchors.verticalCenter: parent.verticalCenter
-
-			opacity: 0.2
+			z: parent.z + 1
 
 			// SVG image
 			Image {
-				id: svgImage
+				id: settingsBtnSvgImage
 				width: parent.width
 				height: width
 				visible: false
-
-				source: 'static/icons/baseline-expand_less.svg'
 				sourceSize.width: width
 				sourceSize.height: height
 			}
 			ColorOverlay{
+				source:settingsBtnSvgImage
 				anchors.centerIn: parent
 				width: source.width
 				height: source.height
-				source:svgImage
 				color: Material.foreground
 				antialiasing: true
 			}
@@ -175,13 +170,13 @@ Rectangle {
 	}
 
 	DropShadow {
+		source: bar
 		anchors.fill: source
 		horizontalOffset: 0
 		verticalOffset: -3
 		radius: 4
 		samples: 9
 		color: "#30000000"
-		source: bar
 	}
 
 }

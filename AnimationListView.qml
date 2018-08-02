@@ -24,9 +24,10 @@ Item {
 
 	ListView {
 		anchors.top: actionBar.bottom
-		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.bottom: controlBar.top
-		width: parent.width - gridSize * 2
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.margins: gridSize
 		spacing: gridSize
 		model: animationModel
 		delegate: animationDelegate

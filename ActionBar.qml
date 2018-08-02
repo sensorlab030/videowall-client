@@ -4,8 +4,6 @@ import QtGraphicalEffects 1.0
 
 Item {
 	id: actionBar
-	property int margin: gridSize
-	property int barHeight: gridSize * 4
 
 	property alias text:text.text
 	property alias button1IconSource:button1.iconSource
@@ -14,9 +12,11 @@ Item {
 	signal button1Clicked
 	signal button2Clicked
 
-	width: parent.width
-	height: (barHeight + margin)
+	height: gridSize * 4
 	anchors.top: parent.top
+	anchors.left: parent.left
+	anchors.right: parent.right
+
 	z: 10
 
 	// Bar background
@@ -25,10 +25,8 @@ Item {
 		property int buttonSize: gridSize * 2
 		property int buttonMargin: (height - buttonSize) / 2
 
-		width: parent.width
-		height: barHeight
-		anchors.top: parent.top
-		color: "#FF2a373e"
+		anchors.fill: parent
+		color: main.barColor
 
 		// Button 1
 		ActionBarButton {
@@ -68,13 +66,13 @@ Item {
 	}
 
 	DropShadow {
+		source: bar
 		anchors.fill: source
 		horizontalOffset: 0
 		verticalOffset: 3
 		radius: 4
 		samples: 9
 		color: "#30000000"
-		source: bar
 	}
 
 }

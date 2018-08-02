@@ -20,6 +20,7 @@ Window {
 	readonly property int fontSizeBig:  gridSize * 2
 	readonly property int fontSizeSmall: gridSize
 	readonly property bool debugMode: true
+	readonly property color barColor: "#FF2a373e"
 
 	// Current active view
 	property int activeViewId: -1
