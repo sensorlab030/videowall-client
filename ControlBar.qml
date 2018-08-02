@@ -91,6 +91,16 @@ Rectangle {
 				elide: Text.ElideRight
 			}
 
+			Connections {
+				target: controller
+
+				onActiveAnimationChanged: {
+					animationName.text = name;
+					animationDescription.text = description
+				}
+
+			}
+
 		}
 
 		// Play pause button
@@ -109,7 +119,6 @@ Rectangle {
 				width: parent.width
 				height: width
 				visible: false
-				source: 'static/icons/baseline-pause_circle_filled.svg'
 				sourceSize.width: width
 				sourceSize.height: height
 			}
@@ -121,6 +130,37 @@ Rectangle {
 				source:playBtnSvgImage
 				color: Material.foreground
 				antialiasing: true
+			}
+
+			states: [
+				State {
+					name: "playing"
+					PropertyChanges {
+						target: playBtnSvgImage;
+						source: 'static/icons/baseline-pause_circle_outline.svg' }
+				},
+				State {
+					name: "paused"
+					PropertyChanges {
+						target: playBtnSvgImage;
+						source: 'static/icons/baseline-play_circle_outline.svg' }
+				}
+			]
+
+			MouseArea {
+				anchors.fill: parent
+				onClicked: {
+					controller.setPlayMode(parent.state === "playing" ? 0 : 1);
+				}
+			}
+
+			Connections {
+				target: controller
+
+				onPlayModeChanged: {
+					playBtn.state = playMode === 1 ? "playing" : "paused"
+				}
+
 			}
 
 		}
@@ -142,16 +182,6 @@ Rectangle {
 		samples: 9
 		color: "#30000000"
 		source: bar
-	}
-
-	Connections {
-		target: controller
-
-		onActiveAnimationChanged: {
-			animationName.text = name;
-			animationDescription.text = description
-		}
-
 	}
 
 }

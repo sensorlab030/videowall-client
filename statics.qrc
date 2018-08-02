@@ -4,9 +4,9 @@
         <file>static/icons/baseline-brightness_medium.svg</file>
         <file>static/icons/baseline-expand_less.svg</file>
         <file>static/icons/baseline-expand_more.svg</file>
-        <file>static/icons/baseline-pause_circle_filled.svg</file>
-        <file>static/icons/baseline-play_circle_filled.svg</file>
         <file>static/icons/baseline-settings.svg</file>
         <file>static/icons/baseline-view_list.svg</file>
+        <file>static/icons/baseline-pause_circle_outline.svg</file>
+        <file>static/icons/baseline-play_circle_outline.svg</file>
     </qresource>
 </RCC>

@@ -18,7 +18,7 @@ WebSocket::WebSocket(QObject *parent) : QObject(parent) {
 }
 
 void WebSocket::open() {
-	_socket->open(QUrl("ws://192.168.1.56:9003"));
+	_socket->open(QUrl("ws://videowall.sensorlab:9003"));
 }
 
 void WebSocket::close() {
@@ -231,7 +231,9 @@ void WebSocket::handleWallPropertyChange(const QString& propertyName, const QVar
 	if (propertyName == WS_WALL_ACTIVE_ANIMATION_ID) {
 		emit activeAnimationIdChanged(value.toInt());
 	} else if (propertyName == WS_WALL_BRIGHTNESS) {
-		emit brightnessChanged(value.toFloat());
+		emit brightnessChanged(value.toInt());
+	} else if (propertyName == WS_WALL_PLAYMODE) {
+		emit playModeChange(value.toInt());
 	}
 }
 
@@ -246,6 +248,11 @@ void WebSocket::sendActivateAnimationId(int activeAnimationId) {
 void WebSocket::sendBrightness(int brightness) {
 	sendWallPropertyChange(WS_WALL_BRIGHTNESS, brightness);
 }
+
+void WebSocket::sendPlayMode(int playmode) {
+	sendWallPropertyChange(WS_WALL_PLAYMODE, playmode);
+}
+
 
 void WebSocket::sendWallPropertyChange(const QString& propertyName, const QVariant& value) {
 

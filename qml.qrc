@@ -12,5 +12,6 @@
         <file>ControlBar.qml</file>
         <file>DebugGrid.qml</file>
         <file>ViewChangeTransition.qml</file>
+        <file>AnimationSettings.qml</file>
     </qresource>
 </RCC>
