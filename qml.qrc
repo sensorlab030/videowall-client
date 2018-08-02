@@ -13,5 +13,6 @@
         <file>DebugGrid.qml</file>
         <file>ViewChangeTransition.qml</file>
         <file>AnimationSettings.qml</file>
+        <file>BarDropShadow.qml</file>
     </qresource>
 </RCC>

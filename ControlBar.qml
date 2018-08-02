@@ -192,14 +192,9 @@ Item {
 
 	}
 
-	DropShadow {
+	BarDropShadow {
 		source: bar
-		anchors.fill: source
-		horizontalOffset: 0
-		verticalOffset: -3
-		radius: 4
-		samples: 9
-		color: "#30000000"
+		downShadow: false
 	}
 
 }
