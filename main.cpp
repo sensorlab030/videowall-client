@@ -9,6 +9,10 @@ int main(int argc, char *argv[]) {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QGuiApplication app(argc, argv);
 
+    QCoreApplication::setOrganizationName("Sensor Lab");
+    QCoreApplication::setOrganizationDomain("sensorlab.nl");
+    QCoreApplication::setApplicationName("VideowallClient");
+
 	// Register custom models
 	qmlRegisterType<VideoWallController>("nl.sensorlab.videowall", 1, 0, "VideoWallController");
 	qmlRegisterType<VideoWallController>("nl.sensorlab.videowall", 1, 0, "AnimationModel");

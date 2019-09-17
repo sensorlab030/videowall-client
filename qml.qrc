@@ -14,5 +14,6 @@
         <file>ViewChangeTransition.qml</file>
         <file>AnimationSettings.qml</file>
         <file>BarDropShadow.qml</file>
+        <file>HostUrl.qml</file>
     </qresource>
 </RCC>

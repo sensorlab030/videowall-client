@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 
+
 Item {
 	id: disconnectedView
 	anchors.fill: parent
@@ -25,6 +26,8 @@ Item {
 				font.pixelSize: fontSizeNormal
 				color: 'white'
 			}
+
+            HostUrl {}
 
 			Button {
 				text: "Reconnect"

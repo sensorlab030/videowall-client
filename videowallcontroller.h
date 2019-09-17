@@ -14,6 +14,7 @@ class VideoWallController : public QObject {
 	Q_PROPERTY(int brightness READ brightness WRITE setBrightness NOTIFY brightnessChanged)
 	Q_PROPERTY(int playMode READ playMode WRITE setPlayMode NOTIFY playModeChanged)
 	Q_PROPERTY(QString socketError READ socketError NOTIFY socketError)
+    Q_PROPERTY(QString hostUrl READ hostUrl WRITE setHostUrl NOTIFY hostUrlChanged)
 
 public:
 	explicit VideoWallController(QObject *parent = nullptr);
@@ -25,6 +26,7 @@ public:
 	int brightness() const;
 	int playMode() const;
 
+    QString hostUrl() const;
 	QString socketError() const;
 	int activeAnimationId() const;
 
@@ -36,6 +38,7 @@ signals:
 
 	void connectionStateChanged(ConnectionState::Enum state);
 	void socketError(const QString& errorString);
+    void hostUrlChanged(const QString& hostUrl);
 
 public slots:
 	void openSocket();
@@ -43,6 +46,7 @@ public slots:
 	void setActiveAnimation(int animationId);
 	void setBrightness(int brightness);
 	void setPlayMode(int playMode);
+    void setHostUrl(const QString& hostUrl);
 
 private slots:
 	void onActiveAnimationIdChanged(int id);
@@ -50,7 +54,8 @@ private slots:
 	void onPlayModeChanged(int playMode);
 
 private:
-	WebSocket*			_socket;
+    QString             _hostUrl;
+    WebSocket*			_socket;
 	AnimationModel*		_animationModel;
 	Animation*			_activeAnimation;
 	int					_brightness;

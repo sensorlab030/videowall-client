@@ -17,8 +17,9 @@ WebSocket::WebSocket(QObject *parent) : QObject(parent) {
 
 }
 
-void WebSocket::open() {
-	_socket->open(QUrl("ws://videowall.sensorlab:9003"));
+void WebSocket::open(const QString& url) {
+    qDebug() << "OPENING" << url;
+    _socket->open(QUrl(url));
 }
 
 void WebSocket::close() {

@@ -34,7 +34,7 @@ signals:
 	void errorString(const QString& errorString);
 
 public slots:
-	void open();
+    void open(const QString &url);
 	void close();
 
 	// Property change requests

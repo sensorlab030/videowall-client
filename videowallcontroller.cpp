@@ -1,6 +1,7 @@
 #include "videowallcontroller.h"
 #include <QDebug>
 #include <QtWebSockets>
+#include <QSettings>
 
 #include "animation.h"
 #include "websocket.h"
@@ -20,16 +21,34 @@ VideoWallController::VideoWallController(QObject *parent) : QObject(parent) {
 	connect(_socket, SIGNAL(brightnessChanged(int)), this, SLOT(onBrightnessChanged(int)));
 	connect(_socket, SIGNAL(playModeChange(int)), this, SLOT(onPlayModeChanged(int)));
 
-	_activeAnimation = 0;
+    _activeAnimation = nullptr;
 	_playMode = 1;
+
+    setHostUrl(QSettings().value("hostUrl", "ws://localhost:9004").toString());
 }
 
 void VideoWallController::openSocket() {
-	_socket->open();
+    _socket->open(_hostUrl);
 }
 
 void VideoWallController::closeSocket() {
 	_socket->close();
+}
+
+void VideoWallController::setHostUrl(const QString& hostUrl) {
+
+    if (hostUrl == _hostUrl) {
+        return;
+    }
+
+    QSettings().setValue("hostUrl", hostUrl);
+    _hostUrl = hostUrl;
+    emit hostUrlChanged(_hostUrl);
+
+}
+
+QString VideoWallController::hostUrl() const {
+    return _hostUrl;
 }
 
 void VideoWallController::onActiveAnimationIdChanged(int id) {

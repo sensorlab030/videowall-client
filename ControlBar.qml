@@ -21,7 +21,7 @@ Item {
 		color: main.barColor
 
 		// Settings button
-		Item {
+        Item {
 
 			id: settingsBtn
 			width: gridSize * 2.5
@@ -72,11 +72,11 @@ Item {
 				}
 			}
 
-		}
+        }
 
 		Column {
-			anchors.left: settingsBtn.right
-			anchors.leftMargin: gridSize
+            anchors.left: settingsBtn.right
+            anchors.leftMargin: gridSize
 			anchors.right: playBtn.left
 			anchors.rightMargin: gridSize
 			anchors.verticalCenter: parent.verticalCenter

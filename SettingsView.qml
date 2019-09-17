@@ -7,6 +7,7 @@ Item {
 	id: settingsView
 	anchors.fill: parent
 
+
 	signal backClicked
 
 	// Top menu
@@ -18,9 +19,9 @@ Item {
 	}
 
 	Column {
-
 		anchors.top: actionBar.bottom
 		anchors.horizontalCenter: parent.horizontalCenter
+        spacing: gridSize
 		topPadding: 40
 		width: parent.width - gridSize * 2
 
@@ -44,6 +45,8 @@ Item {
 			}
 
 		}
+
+        HostUrl {}
 
 	}
 }
